@@ -25,7 +25,9 @@ SORT_TYPE = "popularity_descending"
 
 # Specify the note URL list, which must carry the xsec_token parameter
 XHS_SPECIFIED_NOTE_URL_LIST = [
-    "https://www.xiaohongshu.com/explore/64b95d01000000000c034587?xsec_token=AB0EFqJvINCkj6xOCKCQgfNNh8GdnBC_6XecG4QOddo3Q=&xsec_source=pc_cfeed"
+    "686509b800000000120327da"
+    "680b6417000000001c01ffd4"
+    "67f2529e000000001c01cc8c"
     # ........................
 ]
 
