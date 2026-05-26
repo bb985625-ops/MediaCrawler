@@ -24,6 +24,16 @@ jobs:
       - name: 从 Excel 提取笔记 ID
         run: python3 extract_ids.py
       
+      - name: 检查 Cookie 是否存在
+  run: |
+    if [ -n "$XHS_COOKIE" ]; then
+      echo "Cookie 长度: ${#XHS_COOKIE}"
+    else
+      echo "错误：XHS_COOKIE 环境变量为空"
+      exit 1
+    fi
+  env:
+    XHS_COOKIE: ${{ secrets.XHS_COOKIE }}
       - name: 运行爬虫
         env:
           XHS_COOKIE: ${{ secrets.XHS_COOKIE }}
