@@ -1,7 +1,7 @@
 name: 小红书评论采集
 
 on:
-  workflow_dispatch:                 # 手动触发
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -9,36 +9,22 @@ jobs:
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
-      
+
       - name: 设置 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      
+
       - name: 安装依赖
         run: |
           pip install -r requirements.txt
-          pip install pandas openpyxl
           playwright install chromium
-      
-      - name: 从 Excel 提取笔记 ID
-        run: python3 extract_ids.py
-      
-      - name: 检查 Cookie 是否存在
-  run: |
-    if [ -n "$XHS_COOKIE" ]; then
-      echo "Cookie 长度: ${#XHS_COOKIE}"
-    else
-      echo "错误：XHS_COOKIE 环境变量为空"
-      exit 1
-    fi
-  env:
-    XHS_COOKIE: ${{ secrets.XHS_COOKIE }}
+
       - name: 运行爬虫
         env:
           XHS_COOKIE: ${{ secrets.XHS_COOKIE }}
         run: python3 main.py --platform xhs --lt cookie --cookie $XHS_COOKIE --type detail
-      
+
       - name: 保存结果
         uses: actions/upload-artifact@v4
         with:
