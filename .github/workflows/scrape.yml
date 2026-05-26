@@ -1,3 +1,38 @@
+name: Run MediaCrawler
+
+on:
+  # 你可以根据需要设置触发方式
+  schedule:
+    - cron: '0 2 * * *'  # 每天凌晨2点运行（UTC时间）
+  workflow_dispatch:  # 也支持手动触发
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # ========== 关键步骤：使用 Secret 传入 Cookie ==========
+      - name: Run MediaCrawler with cookie
+        env:
+          XHS_COOKIE: ${{ secrets.XHS_COOKIE }}
+        run: |
+          python3 main.py \
+            --platform xhs \
+            --lt cookie \
+            --cookies "$XHS_COOKIE" \
+            --type detail
 name: 小红书评论采集
 
 on:
